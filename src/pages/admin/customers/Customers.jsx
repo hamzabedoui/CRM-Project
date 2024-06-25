@@ -4,7 +4,8 @@ import {
   fetchUsers,
   deleteUser,
   updateUserStatus,
-} from "../../../redux/features/clientSlice";
+  createClient,
+} from "../../../redux/features/clientSlice"; // Correct import path
 import {
   Table,
   TableBody,
@@ -21,6 +22,7 @@ import {
   DialogContentText,
   DialogTitle,
   IconButton,
+  TextField,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
@@ -30,9 +32,16 @@ import "./Customers.css"; // Import CSS for styling
 const Customers = () => {
   const dispatch = useDispatch();
   const { users, loading, error } = useSelector((state) => state.users);
-  
+
   const [open, setOpen] = useState(false);
   const [userIdToDelete, setUserIdToDelete] = useState(null);
+  const [newUser, setNewUser] = useState({
+    name: "",
+    email: "",
+    password: "",
+    workingAddress: "",
+    phoneNumber: "",
+  });
 
   useEffect(() => {
     dispatch(fetchUsers());
@@ -58,6 +67,32 @@ const Customers = () => {
     dispatch(updateUserStatus({ userId, status: newStatus }));
   };
 
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setNewUser((prevUser) => ({
+      ...prevUser,
+      [name]: value,
+    }));
+  };
+
+  const handleRegister = async (e) => {
+    e.preventDefault();
+    try {
+      const result = await dispatch(createClient(newUser));
+      if (createClient.fulfilled.match(result)) {
+        setNewUser({
+          name: "",
+          email: "",
+          password: "",
+          workingAddress: "",
+          phoneNumber: "",
+        });
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   if (loading) {
     return (
       <div className="loading-container">
@@ -67,12 +102,55 @@ const Customers = () => {
   }
 
   if (error) {
-    return <div>Error: {error}</div>;
+    return <div>Error: {error.msg || error}</div>;
   }
 
   return (
     <div className="user-list-container">
       <h2>User List</h2>
+
+      <form onSubmit={handleRegister} className="create-user-form">
+        <TextField
+          label="Name"
+          name="name"
+          value={newUser.name}
+          onChange={handleInputChange}
+          required
+        />
+        <TextField
+          label="Email"
+          name="email"
+          value={newUser.email}
+          onChange={handleInputChange}
+          required
+        />
+        <TextField
+          label="Password"
+          name="password"
+          type="password"
+          value={newUser.password}
+          onChange={handleInputChange}
+          required
+        />
+        <TextField
+          label="Working Address"
+          name="workingAddress"
+          value={newUser.workingAddress}
+          onChange={handleInputChange}
+          required
+        />
+        <TextField
+          label="Phone Number"
+          name="phoneNumber"
+          value={newUser.phoneNumber}
+          onChange={handleInputChange}
+          required
+        />
+        <Button type="submit" variant="contained" color="primary">
+          Add User
+        </Button>
+      </form>
+
       <TableContainer component={Paper}>
         <Table className="user-table" aria-label="user table">
           <TableHead>
@@ -81,7 +159,7 @@ const Customers = () => {
               <TableCell>Email</TableCell>
               <TableCell>Working Address</TableCell>
               <TableCell>Phone Number</TableCell>
-              <TableCell>Status</TableCell>
+              {/* <TableCell>Status</TableCell> */}
               <TableCell>Actions</TableCell>
             </TableRow>
           </TableHead>
@@ -92,18 +170,18 @@ const Customers = () => {
                 <TableCell>{user.email}</TableCell>
                 <TableCell>{user.workingAddress}</TableCell>
                 <TableCell>{user.phoneNumber}</TableCell>
-                <TableCell>
+                {/* <TableCell>
                   <IconButton
-                    className={`status-icon ${user.status === 'active' ? 'active' : ''}`}
+                    className={`status-icon ${user.status === "inactive" ? "active" : ""}`}
                     onClick={() => handleStatusToggle(user._id, user.status)}
                   >
-                    {user.status === 'active' ? (
+                    {user.status === "active" ? (
                       <CheckCircleIcon />
                     ) : (
                       <RadioButtonUncheckedIcon />
                     )}
                   </IconButton>
-                </TableCell>
+                </TableCell> */}
                 <TableCell>
                   <Button
                     variant="contained"
@@ -120,10 +198,7 @@ const Customers = () => {
         </Table>
       </TableContainer>
 
-      <Dialog
-        open={open}
-        onClose={handleClose}
-      >
+      <Dialog open={open} onClose={handleClose}>
         <DialogTitle>{"Confirm Delete"}</DialogTitle>
         <DialogContent>
           <DialogContentText>

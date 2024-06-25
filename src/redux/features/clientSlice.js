@@ -1,7 +1,14 @@
-// src/slices/userSlice.js
-
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import axios from 'axios';
+import { apiURL } from '../features/apiConfig'; 
 
+const initialState = {
+  users: [],
+  loading: false,
+  error: null,
+};
+
+// Async thunk to fetch users
 // Async thunk to fetch users
 export const fetchUsers = createAsyncThunk('users/fetchUsers', async () => {
   const response = await fetch('http://localhost:5000/api/clients');
@@ -23,27 +30,39 @@ export const deleteUser = createAsyncThunk('users/deleteUser', async (userId) =>
 });
 
 // Async thunk to update user status
-export const updateUserStatus = createAsyncThunk('users/updateUserStatus', async ({ userId, status }) => {
-  const response = await fetch(`http://localhost:5000/api/clients/${userId}/status`, {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ status }),
-  });
-  if (!response.ok) {
-    throw new Error('Failed to update user status');
+export const updateUserStatus = createAsyncThunk(
+  'users/updateUserStatus',
+  async ({ userId, status }) => {
+    const response = await fetch(`http://localhost:5000/api/clients/${userId}/status`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ status }),
+    });
+    if (!response.ok) {
+      throw new Error('Failed to update user status');
+    }
+    return response.json(); // Ensure this returns the updated user object
   }
-  return { userId, status };
-});
+);
+// Async thunk to create a new client
+export const createClient = createAsyncThunk(
+  'users/createClient',
+  async (userData, { rejectWithValue }) => {
+    try {
+      const response = await axios.post(`${apiURL}/auth/createClient`, userData); 
+      return response.data;
+    } catch (err) {
+      return rejectWithValue(err.response.data);
+    }
+  }
+);
 
-const userSlice = createSlice({
+const usersSlice = createSlice({
   name: 'users',
-  initialState: {
-    users: [],
-    loading: false,
-    error: null,
-  },
+  initialState,
+  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(fetchUsers.pending, (state) => {
@@ -62,13 +81,23 @@ const userSlice = createSlice({
         state.users = state.users.filter(user => user._id !== action.payload);
       })
       .addCase(updateUserStatus.fulfilled, (state, action) => {
-        const { userId, status } = action.payload;
-        const user = state.users.find(user => user._id === userId);
-        if (user) {
-          user.status = status;
+        const index = state.users.findIndex(user => user._id === action.payload._id);
+        if (index !== -1) {
+          state.users[index] = action.payload;
         }
+      })
+      .addCase(createClient.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(createClient.fulfilled, (state, action) => {
+        state.loading = false;
+        state.users.push(action.payload.user);
+      })
+      .addCase(createClient.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
       });
   },
 });
 
-export default userSlice.reducer;
+export default usersSlice.reducer;

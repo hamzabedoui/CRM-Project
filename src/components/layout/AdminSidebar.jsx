@@ -1,8 +1,8 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { List, ListItem, ListItemText, Avatar, Button } from "@mui/material";
+import { List, ListItem, ListItemText, Avatar } from "@mui/material";
 import { useSelector } from "react-redux";
-import "./Sidebar.css"
+import "./Sidebar.css";
 
 const AdminSidebar = ({ userName, userAvatar }) => {
   const navigate = useNavigate();
@@ -21,17 +21,20 @@ const AdminSidebar = ({ userName, userAvatar }) => {
         </div>
         <List component="nav">
           <div className="nav-side">
-            <ListItem button component={Link} to="/main-responsable/dashboard">
-              <ListItemText primary="Dashboard" />
+            <ListItem button  component={Link} to="/main-responsable/home">
+              <ListItemText className="item" primary="Home" />
             </ListItem>
             <ListItem button component={Link} to="/main-responsable/customers">
-              <ListItemText primary="Users" />
+              <ListItemText className="item" primary="Customers" />
             </ListItem>
-            <ListItem button component={Link} to="/admin/confirm-application">
-              <ListItemText primary="Requests" />
+            <ListItem button component={Link} to="/main-responsable/sales">
+              <ListItemText className="item" primary="Sales" />
             </ListItem>
-            <ListItem button component={Link} to="/admin/feedbacks">
-              <ListItemText primary="Feedback" />
+            <ListItem button component={Link} to="/main-responsable/services">
+              <ListItemText className="item" primary="Services" />
+            </ListItem>
+            <ListItem button component={Link} to="/main-responsable/payments">
+              <ListItemText className="item" primary="Payments" />
             </ListItem>
           </div>
         </List>

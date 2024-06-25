@@ -42,7 +42,7 @@ const Login = () => {
     if (userInfos?.role === "client") {
       navigate("/main-client/home");
     } else if (userInfos?.role === "responsable") {
-      navigate("/main-responsable/dashboard");
+      navigate("/main-responsable/home");
     } else {
       console.log(userInfos);
     }

@@ -1,41 +1,107 @@
-/* src/components/Customers.css */
+/* Customers.css */
 
 .user-list-container {
-  margin: 20px;
-  margin-left: 220px; /* Adjust this value based on the width of your sidebar */
-  width: calc(100% - 240px); /* Adjust this value based on the width of your sidebar */
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  max-width: 1000px;
+  margin: 20px auto;
+}
+
+.user-list-container h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.create-user-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.create-user-form .MuiTextField-root {
+  flex: 1 1 300px;
+}
+
+.create-user-form .MuiButton-root {
+  align-self: flex-end;
+  background-color: #007bff;
+  color: #fff;
+  &:hover {
+    background-color: #0056b3;
+  }
 }
 
 .user-table {
-  min-width: 950px; /* Adjust table width as needed */
-  width: 100%;
-  
+  min-width: 650px;
+}
+
+.user-table thead {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.user-table thead th {
+  padding: 12px 20px;
+}
+
+.user-table tbody tr {
+  background-color: #fff;
+  &:nth-of-type(even) {
+    background-color: #f2f2f2;
+  }
+}
+
+.user-table tbody td {
+  padding: 10px 20px;
+}
+
+.user-table-button {
+  background-color: #dc3545;
+  color: #fff;
+  &:hover {
+    background-color: #c82333;
+  }
+}
+
+.status-icon {
+  cursor: pointer;
+  font-size: 1.5rem;
+  color: #007bff;
+  &:hover {
+    color: #0056b3;
+  }
+  &.active {
+    color: #28a745;
+  }
 }
 
 .loading-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100%;
+  height: 100vh;
 }
 
-.user-table-cell {
-  padding: 16px; /* Adjust padding as needed */
+.dialog-content {
+  padding: 20px;
   text-align: center;
 }
 
-.user-table-button {
-  margin-right: 8px; /* Adjust margin between buttons */
-  padding: 8px 16px; /* Adjust button padding */
-  min-width: 120px; /* Adjust button width */
+.dialog-actions {
+  justify-content: center;
+  padding: 10px 20px;
 }
 
-/* Styles for status toggle icon */
-.status-icon {
-  cursor: pointer;
-  color: red; /* Default color for inactive status */
+.dialog-actions .MuiButton-root {
+  margin: 0 10px;
 }
 
-.status-icon.active {
-  color: green; /* Color for active status */
+.dialog-title {
+  background-color: #f8f9fa;
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
 }

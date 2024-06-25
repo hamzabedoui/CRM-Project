@@ -73,6 +73,7 @@
     height: 3rem;
     width: 6rem;
     border: none;
+    border-radius: 0.5rem;
   }
   .btn:hover {
     background-color: #105193;

@@ -1,16 +1,13 @@
-// src/redux/features/servicesSlice.js
-
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import { apiURL } from "./apiConfig";
+
 // Async thunk to fetch services
 export const fetchServices = createAsyncThunk(
   "services/fetchServices",
   async () => {
     try {
-      const response = await axios.get(
-        `${apiURL}/services/fetchServices`
-      );
+      const response = await axios.get(`${apiURL}/services/fetchServices`);
       return response.data;
     } catch (error) {
       throw new Error("Failed to fetch services");
@@ -23,10 +20,7 @@ export const createService = createAsyncThunk(
   "services/createService",
   async (newService) => {
     try {
-      const response = await axios.post(
-        `${apiURL}/services`,
-        newService
-      );
+      const response = await axios.post(`${apiURL}/services`, newService);
       return response.data;
     } catch (error) {
       throw new Error("Failed to create service");
@@ -61,6 +55,7 @@ export const updateService = createAsyncThunk(
     }
   }
 );
+
 // Initial State
 const initialState = {
   services: [],
@@ -119,7 +114,6 @@ const servicesSlice = createSlice({
       })
       .addCase(updateService.fulfilled, (state, action) => {
         state.loading = false;
-
         state.services = state.services.map((service) =>
           service._id === action.payload._id ? action.payload : service
         );

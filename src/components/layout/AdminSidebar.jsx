@@ -9,7 +9,7 @@ const AdminSidebar = ({ userName, userAvatar }) => {
   const userInfos = useSelector((store) => store.login.userInfos);
   const handleSignOut = () => {
     console.log("Sign out");
-    navigate("/login");
+    navigate("/");
   };
 
   return (

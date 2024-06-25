@@ -1,0 +1,41 @@
+/* src/components/Customers.css */
+
+.user-list-container {
+  margin: 20px;
+  margin-left: 220px; /* Adjust this value based on the width of your sidebar */
+  width: calc(100% - 240px); /* Adjust this value based on the width of your sidebar */
+}
+
+.user-table {
+  min-width: 950px; /* Adjust table width as needed */
+  width: 100%;
+  
+}
+
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.user-table-cell {
+  padding: 16px; /* Adjust padding as needed */
+  text-align: center;
+}
+
+.user-table-button {
+  margin-right: 8px; /* Adjust margin between buttons */
+  padding: 8px 16px; /* Adjust button padding */
+  min-width: 120px; /* Adjust button width */
+}
+
+/* Styles for status toggle icon */
+.status-icon {
+  cursor: pointer;
+  color: red; /* Default color for inactive status */
+}
+
+.status-icon.active {
+  color: green; /* Color for active status */
+}

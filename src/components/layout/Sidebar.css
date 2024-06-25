@@ -1,0 +1,80 @@
+.body{
+  font-family: 'lato';
+}
+.SidebarContainer {
+    width: 250px;
+    background-color: #d7dfef;
+    padding: 20px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 10rem;
+    height: 94vh;
+
+  }
+  
+  .UserInfoContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .UserName {
+    font-weight: bold;
+    font-size: 1.6rem;
+  }
+  
+  .container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 2rem;
+   
+  }
+  .nav-side {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .sidebar-items {
+    font-size: 1.5rem;
+    list-style-type: none;
+    padding: 0;
+    margin: 50px 0 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: left;
+    .sidebar-item {
+      padding: 10px;
+      transition: all .3s;
+      cursor: pointer;
+      &:hover {
+        background-color: #cdcaca;
+        color: rgb(138, 128, 128);
+      }
+      a:visited,a:link{
+        text-decoration: none;
+        padding: 1rem;
+        color: rgb(98, 97, 97);
+      }
+    }
+  }
+  .btncontainer{
+    align-content: center;
+  }
+  .btn{
+    background-color: #1976d2;
+    color: white;
+    cursor: pointer;
+    font-size: 16px;
+    height: 3rem;
+    width: 6rem;
+    border: none;
+  }
+  .btn:hover {
+    background-color: #105193;
+    text-decoration: underline;
+    }

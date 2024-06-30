@@ -35,6 +35,19 @@ export const deleteSale = createAsyncThunk('sales/deleteSale', async (saleId) =>
   }
 });
 
+// Async thunk to update a sale's status
+export const updateSaleStatus = createAsyncThunk(
+  'sales/updateSaleStatus',
+  async ({ saleId, status }, { rejectWithValue }) => {
+    try {
+      const response = await axios.put(`${apiURL}/sales/update/${saleId}`, { status });
+      return response.data;
+    } catch (err) {
+      return rejectWithValue(err.response.data);
+    }
+  }
+);
+
 // Initial State
 const initialState = {
   sales: [],
@@ -84,6 +97,21 @@ const salesSlice = createSlice({
       .addCase(deleteSale.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
+      })
+      .addCase(updateSaleStatus.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(updateSaleStatus.fulfilled, (state, action) => {
+        state.loading = false;
+        const index = state.sales.findIndex((sale) => sale._id === action.payload._id);
+        if (index !== -1) {
+          state.sales[index] = action.payload;
+        }
+      })
+      .addCase(updateSaleStatus.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
       });
   },
 });

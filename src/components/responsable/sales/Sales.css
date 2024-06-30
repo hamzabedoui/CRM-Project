@@ -1,0 +1,27 @@
+/* Sales.css */
+.sales-container {
+    padding: 20px;
+  }
+  
+  .sales-container h2 {
+    margin-bottom: 20px;
+  }
+  
+  .sales-table {
+    width: 100%;
+    margin-top: 20px;
+  }
+  
+  .status-select {
+    min-width: 120px;
+  }
+  
+  .delete-button {
+    background-color: #f44336;
+    color: #fff;
+    margin-right: 8px;
+  }
+  
+  .create-button {
+    margin-top: 20px;
+  }

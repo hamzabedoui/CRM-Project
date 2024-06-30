@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchSales, createSale, deleteSale } from "../../../redux/features/salesSlice";
+import {
+  fetchSales,
+  createSale,
+  deleteSale,
+  updateSaleStatus,
+} from "../../../redux/features/salesSlice";
 import { fetchServices } from "../../../redux/features/servicesSlice";
 import { fetchUsers } from "../../../redux/features/clientSlice";
 import {
@@ -21,18 +26,25 @@ import {
   TextField,
   MenuItem,
   Typography,
+  Select,
+  FormControl,
+  InputLabel,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
+import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
+import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
+import "../sales/Sales.css";
 
 const Sales = () => {
   const dispatch = useDispatch();
   const { sales, loading, error } = useSelector((state) => state.sales);
   const { services } = useSelector((state) => state.services);
   const { users, loading: usersLoading } = useSelector((state) => state.users);
-  console.log(sales);
+
   const [open, setOpen] = useState(false);
   const [serviceAmount, setServiceAmount] = useState(0);
-  
+
   const [formData, setFormData] = useState({
     date: "",
     customerId: "",
@@ -66,11 +78,14 @@ const Sales = () => {
 
   const handleServiceChange = (event) => {
     const serviceId = event.target.value;
-    const selectedService = services.find(service => service._id === serviceId);
+    const selectedService = services.find(
+      (service) => service._id === serviceId
+    );
     setServiceAmount(selectedService ? selectedService.amount : 0);
 
     // Update total amount when service changes
-    const totalAmount = formData.quantity * (selectedService ? selectedService.amount : 0);
+    const totalAmount =
+      formData.quantity * (selectedService ? selectedService.amount : 0);
     setFormData({ ...formData, serviceId, totalAmount });
   };
 
@@ -80,6 +95,16 @@ const Sales = () => {
       dispatch(fetchSales());
     } catch (error) {
       console.error("Error deleting sale:", error);
+    }
+  };
+
+  const handleStatusChange = async (event, saleId) => {
+    const newStatus = event.target.value;
+    try {
+      await dispatch(updateSaleStatus({ saleId, status: newStatus }));
+      dispatch(fetchSales());
+    } catch (error) {
+      console.error(`Error updating sale status to ${newStatus}:`, error);
     }
   };
 
@@ -119,26 +144,53 @@ const Sales = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {sales &&
-              sales.map((sale) => (
-                <TableRow key={sale._id}>
-                  <TableCell>{sale.date}</TableCell>
-                  <TableCell>{sale.customerId.name}</TableCell>
-                  <TableCell>{sale.serviceId.name}</TableCell>
-                  <TableCell>{sale.quantity}</TableCell>
-                  <TableCell>{sale.totalAmount}</TableCell>
-                  <TableCell>{sale.status}</TableCell>
-                  <TableCell>
-                    <Button
-                      variant="contained"
-                      startIcon={<DeleteIcon />}
-                      onClick={() => handleDelete(sale._id)}
+            {sales.map((sale) => (
+              <TableRow key={sale._id}>
+                <TableCell>{sale.date}</TableCell>
+                <TableCell>{sale.customerId.name}</TableCell>
+                <TableCell>{sale.serviceId.name}</TableCell>
+                <TableCell>{sale.quantity}</TableCell>
+                <TableCell>{sale.totalAmount}</TableCell>
+                <TableCell>
+                  <FormControl fullWidth>
+                    <Select
+                      value={sale.status}
+                      onChange={(e) => handleStatusChange(e, sale._id)}
+                      style={{ minWidth: "120px" }} // Example inline style
                     >
-                      Delete
-                    </Button>
-                  </TableCell>
-                </TableRow>
-              ))}
+                      <MenuItem value="pending">
+                        <InfoOutlinedIcon
+                          style={{ marginRight: "4px", color: "#ffc107" }}
+                        />
+                        Pending
+                      </MenuItem>
+                      <MenuItem value="confirmed">
+                        <CheckCircleOutlineIcon
+                          style={{ marginRight: "4px", color: "#4caf50" }}
+                        />
+                        Confirmed
+                      </MenuItem>
+                      <MenuItem value="cancelled">
+                        <CancelOutlinedIcon
+                          style={{ marginRight: "4px", color: "#f44336" }}
+                        />
+                        Cancelled
+                      </MenuItem>
+                    </Select>
+                  </FormControl>
+                </TableCell>
+                <TableCell>
+                  <Button
+                    variant="contained"
+                    startIcon={<DeleteIcon />}
+                    onClick={() => handleDelete(sale._id)}
+                    style={{ backgroundColor: "#f44336", color: "#fff" }} // Example inline style
+                  >
+                    Delete
+                  </Button>
+                </TableCell>
+              </TableRow>
+            ))}
           </TableBody>
         </Table>
       </TableContainer>
@@ -147,7 +199,7 @@ const Sales = () => {
         variant="contained"
         color="primary"
         onClick={() => setOpen(true)}
-        style={{ marginTop: "20px" }}
+        style={{ marginTop: "20px" }} // Example inline style
       >
         Create Sale
       </Button>

@@ -6,18 +6,19 @@ import "./Sidebar.css";
 
 const AdminSidebar = ({ userName, userAvatar }) => {
   const navigate = useNavigate();
-  const userInfos = useSelector((store) => store.login.userInfos);
+  //const userInfos = useSelector((store) => store.login.userInfos);
+  //console.log(userInfos.name);
   const handleSignOut = () => {
     console.log("Sign out");
     navigate("/");
-  };
+  };  
 
   return (
     <div className="SidebarContainer">
       <div className="container">
         <div className="UserInfoContainer">
           <Avatar alt={userName} src={userAvatar} className="UserAvatar" />
-          <div className="UserName">{userInfos.name}</div>
+          <div className="UserName">{userName}</div>
         </div>
         <List component="nav">
           <div className="nav-side">

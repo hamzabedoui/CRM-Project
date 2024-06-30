@@ -2,11 +2,11 @@ import React from 'react'
 import Login from './pages/login/login'; 
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Register from './pages/register/Register';
-import MainResponsable from './components/responsable/MainResponsable';
+import MainResponsable from './pages/admin/MainResponsable';
 import MainClient from './components/client/MainClient';
 import HomeClient from './components/client/HomeClient';
-import Customers from './pages/admin/customers/Customers';
-import Dashboard from './pages/admin/dashboard/Dashboard';
+import Customers from './components/responsable/customers/Customers';
+import Dashboard from './components/responsable/services/Dashboard';
 import Home from './components/responsable/home/Home';
 import Sales from './components/responsable/sales/Sales';
 import Payments from './components/responsable/payments/Payments';

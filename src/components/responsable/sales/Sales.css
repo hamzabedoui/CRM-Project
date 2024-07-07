@@ -1,6 +1,7 @@
 /* Sales.css */
 .sales-container {
-    padding: 20px;
+    padding: 40px;
+    
   }
   
   .sales-container h2 {
@@ -25,3 +26,6 @@
   .create-button {
     margin-top: 20px;
   }
+.sales-table{
+  background-color: #007bff;
+}

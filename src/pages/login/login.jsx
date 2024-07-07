@@ -32,6 +32,7 @@ const Login = () => {
     e.preventDefault();
     const response = await dispatch(loginUser({ email, password }));
     console.log(response);
+    console.log(userInfos);
 
     if (response.meta.requestStatus === "fulfilled") {
       dispatch(getUserDetails());

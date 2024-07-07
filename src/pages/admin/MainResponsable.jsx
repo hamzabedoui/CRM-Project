@@ -19,6 +19,7 @@ const MainResponsable = () => {
   useEffect(() => {
     !Cookies.get("token") && navigate("/");
     dispatch(getUserDetails())
+    console.log(userInfos.name);
   }, []);
 
   return (

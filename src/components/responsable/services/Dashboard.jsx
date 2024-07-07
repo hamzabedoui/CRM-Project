@@ -21,10 +21,15 @@ import {
   MenuItem,
   FormControl,
   InputLabel,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddIcon from "@mui/icons-material/Add";
-import "./Dashboard.css"; // Import CSS file for Dashboard styles
+import "../services/Dashboard.css"; 
 
 const unitOptions = ["hour", "project", "day", "month", "year", "piece"];
 
@@ -40,6 +45,7 @@ const Dashboard = () => {
   });
 
   const [editService, setEditService] = useState(null);
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     dispatch(fetchServices());
@@ -47,32 +53,18 @@ const Dashboard = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    if (editService) {
-      setEditService({
-        ...editService,
-        [name]: value,
-      });
-    } else {
-      setNewService({
-        ...newService,
-        [name]: value,
-      });
-    }
+    setNewService({
+      ...newService,
+      [name]: value,
+    });
   };
 
   const handleSelectChange = (e) => {
     const { name, value } = e.target;
-    if (editService) {
-      setEditService({
-        ...editService,
-        [name]: value,
-      });
-    } else {
-      setNewService({
-        ...newService,
-        [name]: value,
-      });
-    }
+    setNewService({
+      ...newService,
+      [name]: value,
+    });
   };
 
   const handleAddService = () => {
@@ -83,6 +75,7 @@ const Dashboard = () => {
       category: "",
       unit: "",
     });
+    handleClose();
   };
 
   const handleEdit = (service) => {
@@ -108,6 +101,14 @@ const Dashboard = () => {
     dispatch(deleteService(serviceId));
   };
 
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   if (loading) {
     return (
       <div className="loading-container">
@@ -125,7 +126,7 @@ const Dashboard = () => {
       <h2>Service List</h2>
       <TableContainer component={Paper}>
         <Table className="service-table" aria-label="service table">
-          <TableHead>
+          <TableHead className="service-table-head">
             <TableRow>
               <TableCell className="table-header">Name</TableCell>
               <TableCell className="table-header">Amount</TableCell>
@@ -195,30 +196,30 @@ const Dashboard = () => {
                 </TableCell>
                 <TableCell className="buttons-action">
                   {editService && editService._id === service._id ? (
-                    <Button
+                    <button
                       variant="contained"
                       onClick={handleUpdateService}
                       className="action-button"
                     >
                       Update
-                    </Button>
+                    </button>
                   ) : (
-                    <Button
+                    <button
                       variant="contained"
                       onClick={() => handleEdit(service)}
                       className="action-button"
                     >
                       Edit
-                    </Button>
+                    </button>
                   )}
-                  <Button
+                  <button
                     variant="contained"
                     startIcon={<DeleteIcon />}
                     onClick={() => handleDelete(service._id)}
                     className="action-button delete-button"
                   >
                     Delete
-                  </Button>
+                  </button>
                 </TableCell>
               </TableRow>
             ))}
@@ -226,49 +227,72 @@ const Dashboard = () => {
         </Table>
       </TableContainer>
       <div className="add-service-container">
-        <TextField
-          label="Name"
-          name="name"
-          value={newService.name}
-          onChange={handleInputChange}
-          className="add-input"
-        />
-        <TextField
-          label="Amount"
-          name="amount"
-          value={newService.amount}
-          onChange={handleInputChange}
-          className="add-input"
-        />
-        <TextField
-          label="Category"
-          name="category"
-          value={newService.category}
-          onChange={handleInputChange}
-          className="add-input"
-        />
-        <FormControl className="add-input unit-input">
-          <InputLabel>Unit</InputLabel>
-          <Select
-            name="unit"
-            value={newService.unit}
-            onChange={handleSelectChange}
-          >
-            {unitOptions.map((option) => (
-              <MenuItem key={option} value={option}>
-                {option}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
         <Button
           variant="contained"
           startIcon={<AddIcon />}
-          onClick={handleAddService}
+          onClick={handleClickOpen}
           className="action-button add-button"
         >
           Add Service
         </Button>
+        <Dialog open={open} onClose={handleClose}>
+          <DialogTitle>Add New Service</DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              Please fill out the form to add a new service.
+            </DialogContentText>
+            <TextField
+              autoFocus
+              margin="dense"
+              label="Name"
+              name="name"
+              value={newService.name}
+              onChange={handleInputChange}
+              className="add-input"
+              fullWidth
+            />
+            <TextField
+              margin="dense"
+              label="Amount"
+              name="amount"
+              value={newService.amount}
+              onChange={handleInputChange}
+              className="add-input"
+              fullWidth
+            />
+            <TextField
+              margin="dense"
+              label="Category"
+              name="category"
+              value={newService.category}
+              onChange={handleInputChange}
+              className="add-input"
+              fullWidth
+            />
+            <FormControl className="add-input unit-input" fullWidth>
+              <InputLabel>Unit</InputLabel>
+              <Select
+                name="unit"
+                value={newService.unit}
+                onChange={handleSelectChange}
+              >
+                {unitOptions.map((option) => (
+                  <MenuItem key={option} value={option}>
+                    {option}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleClose} color="primary">
+              Cancel
+            </Button>
+            <Button onClick={handleAddService} color="primary">
+              Add
+            </Button>
+          </DialogActions>
+        </Dialog>
       </div>
     </div>
   );

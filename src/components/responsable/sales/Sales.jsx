@@ -46,7 +46,7 @@ const Sales = () => {
   const [serviceAmount, setServiceAmount] = useState(0);
 
   const [formData, setFormData] = useState({
-    date: "",
+    date: "", // Initialize date as empty string
     customerId: "",
     serviceId: "",
     quantity: 0,
@@ -114,6 +114,19 @@ const Sales = () => {
     setFormData({ ...formData, quantity, totalAmount });
   };
 
+  const handleDateChange = (e) => {
+    const selectedDate = e.target.value;
+    const formattedDate = formatToMonthYear(selectedDate); // Format to month-year
+    setFormData({ ...formData, date: formattedDate });
+  };
+
+  const formatToMonthYear = (dateString) => {
+    const date = new Date(dateString);
+    const month = date.toLocaleString("default", { month: "long" });
+    const year = date.getFullYear();
+    return `${month} ${year}`;
+  };
+
   if (loading || usersLoading) {
     return (
       <div className="loading-container">
@@ -132,7 +145,7 @@ const Sales = () => {
 
       <TableContainer component={Paper}>
         <Table aria-label="sales table">
-          <TableHead>
+          <TableHead className="sales-table">
             <TableRow>
               <TableCell>Date</TableCell>
               <TableCell>Customer</TableCell>
@@ -145,8 +158,8 @@ const Sales = () => {
           </TableHead>
           <TableBody>
             {sales.map((sale) => (
-              <TableRow key={sale._id}>
-                <TableCell>{sale.date}</TableCell>
+              <TableRow key={sale._id} className="table-row">
+                <TableCell>{sale.date.split('T')[0]}</TableCell>
                 <TableCell>{sale.customerId.name}</TableCell>
                 <TableCell>{sale.serviceId.name}</TableCell>
                 <TableCell>{sale.quantity}</TableCell>
@@ -156,7 +169,7 @@ const Sales = () => {
                     <Select
                       value={sale.status}
                       onChange={(e) => handleStatusChange(e, sale._id)}
-                      style={{ minWidth: "120px" }} // Example inline style
+                      style={{ minWidth: "120px" }}
                     >
                       <MenuItem value="pending">
                         <InfoOutlinedIcon
@@ -199,7 +212,7 @@ const Sales = () => {
         variant="contained"
         color="primary"
         onClick={() => setOpen(true)}
-        style={{ marginTop: "20px" }} // Example inline style
+        style={{ marginTop: "20px", marginLeft: "30rem" }} // Example inline style
       >
         Create Sale
       </Button>
@@ -213,12 +226,10 @@ const Sales = () => {
           <form onSubmit={handleCreateSale}>
             <TextField
               label="Date"
-              type="date"
+              type="month" // Use type="month" for month and year selection
               name="date"
               value={formData.date}
-              onChange={(e) =>
-                setFormData({ ...formData, date: e.target.value })
-              }
+              onChange={handleDateChange} // Handle date change
               InputLabelProps={{ shrink: true }}
               required
               fullWidth

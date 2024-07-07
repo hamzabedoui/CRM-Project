@@ -1,8 +1,10 @@
 /* General container styling */
 .service-list-container {
-  padding: 20px;
+  padding: 40px;
   max-width: 1200px;
   margin: 0 auto;
+  width: 130%;
+  /* margin-left: 10rem; */
 }
 
 h2 {
@@ -12,11 +14,11 @@ h2 {
 
 /* Table styling */
 .service-table {
-  width: 100%;
+  width: 150%;
 }
 
 .table-header {
-  background-color: #f5f5f5;
+  background-color: #007bff;
   font-weight: bold;
 }
 
@@ -41,6 +43,8 @@ h2 {
   padding: 8px 16px;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  font-size: 1rem;
+  border-radius: 0.3rem;
 }
 
 .action-button:hover {
@@ -48,15 +52,18 @@ h2 {
 }
 
 .delete-button {
-  background-color: #dc3545;
+  background-color: #f44336;
+  font-size: 1rem;
 }
 
 .delete-button:hover {
   background-color: #c82333;
+  
 }
 
 .add-button {
   background-color: #28a745;
+  font-size: 1rem;
 }
 
 .add-button:hover {

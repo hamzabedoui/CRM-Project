@@ -4,6 +4,7 @@ import registerReducer from './features/registerSlice';
 import userReducer from './features/clientSlice';
 import servicesReducer from './features/servicesSlice'
 import salesReducer from './features/salesSlice'
+import paymentReducer from './features/paymentSlice';
 
 const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ const store = configureStore({
     users: userReducer,
     services: servicesReducer,
     sales: salesReducer,
+    payments: paymentReducer,
   },
 });
 

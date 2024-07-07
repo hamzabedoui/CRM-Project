@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { apiURL } from './apiConfig'
+import { apiURL } from './apiConfig';
 import Cookies from "js-cookie";
 
 const initialState = {
@@ -37,6 +37,21 @@ export const getUserDetails = createAsyncThunk(
   }
 );
 
+export const signOutUser = createAsyncThunk(
+  'logout/SignOutUser',
+  async () => {
+    try {
+      await axios.post(`${apiURL}/auth/logout`, null, {
+        withCredentials: true,
+      });
+      // Clear user data in Redux store upon successful sign-out
+      return {};
+    } catch (error) {
+      throw error;
+    }
+  }
+);
+
 const loginSlice = createSlice({
   name: 'login',
   initialState,
@@ -65,6 +80,18 @@ const loginSlice = createSlice({
       .addCase(getUserDetails.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message || 'cannot get user infos';
+      })
+      .addCase(signOutUser.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(signOutUser.fulfilled, (state) => {
+        state.loading = false;
+        state.userInfos = {}; // Clear user details upon sign-out
+      })
+      .addCase(signOutUser.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message || 'sign-out failed';
       });
   },
 });

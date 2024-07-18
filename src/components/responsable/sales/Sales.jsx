@@ -8,6 +8,7 @@ import {
 } from "../../../redux/features/salesSlice";
 import { fetchServices } from "../../../redux/features/servicesSlice";
 import { fetchUsers } from "../../../redux/features/clientSlice";
+import { getUserDetails } from "../../../redux/features/loginSlice";
 import {
   Table,
   TableBody,
@@ -41,21 +42,24 @@ const Sales = () => {
   const { sales, loading, error } = useSelector((state) => state.sales);
   const { services } = useSelector((state) => state.services);
   const { users, loading: usersLoading } = useSelector((state) => state.users);
-
+  const userInfos = useSelector((store) => store.login.userInfos);
+  
   const [open, setOpen] = useState(false);
   const [serviceAmount, setServiceAmount] = useState(0);
-
   const [formData, setFormData] = useState({
-    date: "", // Initialize date as empty string
+    date: "",
     customerId: "",
     serviceId: "",
     quantity: 0,
-    status: "pending", // Default status
-    totalAmount: 0, // Default total amount
+    status: "pending",
+    totalAmount: 0,
+    createdBy: "",
   });
 
   useEffect(() => {
-    dispatch(fetchSales());
+    dispatch(getUserDetails()).then(() => {
+      dispatch(fetchSales());
+    });
     dispatch(fetchServices());
     dispatch(fetchUsers());
   }, [dispatch]);
@@ -63,7 +67,12 @@ const Sales = () => {
   const handleCreateSale = async (e) => {
     e.preventDefault();
     try {
-      await dispatch(createSale(formData));
+      const formDataWithCreatedBy = {
+        ...formData,
+        createdBy: userInfos?._id || "", // Safely access _id
+      };
+
+      await dispatch(createSale(formDataWithCreatedBy));
       dispatch(fetchSales());
       setOpen(false);
     } catch (error) {
@@ -83,7 +92,6 @@ const Sales = () => {
     );
     setServiceAmount(selectedService ? selectedService.amount : 0);
 
-    // Update total amount when service changes
     const totalAmount =
       formData.quantity * (selectedService ? selectedService.amount : 0);
     setFormData({ ...formData, serviceId, totalAmount });
@@ -112,19 +120,6 @@ const Sales = () => {
     const quantity = parseInt(event.target.value);
     const totalAmount = quantity * serviceAmount;
     setFormData({ ...formData, quantity, totalAmount });
-  };
-
-  const handleDateChange = (e) => {
-    const selectedDate = e.target.value;
-    const formattedDate = formatToMonthYear(selectedDate); // Format to month-year
-    setFormData({ ...formData, date: formattedDate });
-  };
-
-  const formatToMonthYear = (dateString) => {
-    const date = new Date(dateString);
-    const month = date.toLocaleString("default", { month: "long" });
-    const year = date.getFullYear();
-    return `${month} ${year}`;
   };
 
   if (loading || usersLoading) {
@@ -159,7 +154,7 @@ const Sales = () => {
           <TableBody>
             {sales.map((sale) => (
               <TableRow key={sale._id} className="table-row">
-                <TableCell>{sale.date.split('T')[0]}</TableCell>
+                <TableCell>{sale.date.split("T")[0]}</TableCell>
                 <TableCell>{sale.customerId.name}</TableCell>
                 <TableCell>{sale.serviceId.name}</TableCell>
                 <TableCell>{sale.quantity}</TableCell>
@@ -170,22 +165,23 @@ const Sales = () => {
                       value={sale.status}
                       onChange={(e) => handleStatusChange(e, sale._id)}
                       style={{ minWidth: "120px" }}
+                      className="menu-item"
                     >
                       <MenuItem value="pending">
                         <InfoOutlinedIcon
-                          style={{ marginRight: "4px", color: "#ffc107" }}
+                          style={{ marginRight: "10px", color: "#ffc107" }}
                         />
                         Pending
                       </MenuItem>
                       <MenuItem value="confirmed">
                         <CheckCircleOutlineIcon
-                          style={{ marginRight: "4px", color: "#4caf50" }}
+                          style={{ marginRight: "10px", color: "#4caf50" }}
                         />
                         Confirmed
                       </MenuItem>
                       <MenuItem value="cancelled">
                         <CancelOutlinedIcon
-                          style={{ marginRight: "4px", color: "#f44336" }}
+                          style={{ marginRight: "10px", color: "#f44336" }}
                         />
                         Cancelled
                       </MenuItem>
@@ -197,7 +193,7 @@ const Sales = () => {
                     variant="contained"
                     startIcon={<DeleteIcon />}
                     onClick={() => handleDelete(sale._id)}
-                    style={{ backgroundColor: "#f44336", color: "#fff" }} // Example inline style
+                    style={{ backgroundColor: "#f44336", color: "#fff" }}
                   >
                     Delete
                   </Button>
@@ -212,7 +208,7 @@ const Sales = () => {
         variant="contained"
         color="primary"
         onClick={() => setOpen(true)}
-        style={{ marginTop: "20px", marginLeft: "30rem" }} // Example inline style
+        style={{ marginTop: "20px", marginLeft: "30rem" }}
       >
         Create Sale
       </Button>
@@ -226,10 +222,12 @@ const Sales = () => {
           <form onSubmit={handleCreateSale}>
             <TextField
               label="Date"
-              type="month" // Use type="month" for month and year selection
+              type="date"
               name="date"
               value={formData.date}
-              onChange={handleDateChange} // Handle date change
+              onChange={(e) =>
+                setFormData({ ...formData, date: e.target.value })
+              }
               InputLabelProps={{ shrink: true }}
               required
               fullWidth
@@ -289,7 +287,7 @@ const Sales = () => {
               fullWidth
               margin="normal"
             >
-              {["pending", "completed", "cancelled"].map((status) => (
+              {["pending", "confirmed", "cancelled"].map((status) => (
                 <MenuItem key={status} value={status}>
                   {status.charAt(0).toUpperCase() + status.slice(1)}
                 </MenuItem>

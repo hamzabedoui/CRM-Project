@@ -10,6 +10,7 @@ import Dashboard from './components/responsable/services/Dashboard';
 import Home from './components/responsable/home/Home';
 import Sales from './components/responsable/sales/Sales';
 import Payments from './components/responsable/payments/Payments';
+import Profile from './components/responsable/profile/Profile';
 
 const App = () => {
   return (
@@ -17,14 +18,16 @@ const App = () => {
       <Router>
         <Routes>
           <Route path='/' element={<Login />} />
-          <Route path='/login' element={<Login />} />
+          
           <Route path='/register' element={<Register />} />
           <Route path='/main-responsable' element={<MainResponsable />}>
+            
             <Route path='/main-responsable/customers' element={<Customers />} />
             <Route path='/main-responsable/Services' element={<Dashboard />} />
             <Route path='/main-responsable/home' element={<Home />} />
             <Route path='/main-responsable/sales' element={<Sales />} />
             <Route path='/main-responsable/payments' element={<Payments />} />
+            <Route path='/main-responsable/profile' element={<Profile />} />
 
           </Route> 
           <Route path='/main-client' element={<MainClient />}>

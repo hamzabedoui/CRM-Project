@@ -29,3 +29,8 @@
 .sales-table{
   background-color: #007bff;
 }
+.menu-item{
+  display: flex;
+  align-items: center;
+  
+}

@@ -59,6 +59,7 @@ const PaymentSection = () => {
       const sale = sales.find((s) => s._id === saleId);
       setSelectedSale(sale);
     }
+    console.log(payments.customerId);
   }, [saleId, sales]);
 
   const handleSubmit = (e) => {

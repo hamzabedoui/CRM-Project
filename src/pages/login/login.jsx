@@ -36,18 +36,15 @@ const Login = () => {
 
     if (response.meta.requestStatus === "fulfilled") {
       dispatch(getUserDetails());
+      navigate("/main-responsable/home")
     }
   };
 
   useEffect(() => {
-    if (userInfos?.role === "client") {
-      navigate("/main-client/home");
-    } else if (userInfos?.role === "responsable") {
-      navigate("/main-responsable/home");
-    } else {
+      //navigate("/main-responsable/home");
       console.log(userInfos);
-    }
-  }, [userInfos, navigate]);
+   
+  }, [userInfos]);
 
   return (
     <Container maxWidth="xs">

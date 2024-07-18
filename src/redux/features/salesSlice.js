@@ -1,13 +1,19 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { apiURL } from './apiConfig';
+import Cookies from 'js-cookie';
 
 // Async thunk to create a new sale
 export const createSale = createAsyncThunk(
   'sales/createSale',
   async (saleData, { rejectWithValue }) => {
     try {
-      const response = await axios.post(`${apiURL}/sales/post`, saleData);
+      const token = Cookies.get('token'); // Fetch the token from cookies
+      const response = await axios.post(`${apiURL}/sales/post`, saleData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       return response.data;
     } catch (err) {
       return rejectWithValue(err.response.data);
@@ -17,8 +23,13 @@ export const createSale = createAsyncThunk(
 
 // Async thunk to fetch sales
 export const fetchSales = createAsyncThunk('sales/fetchSales', async () => {
+  const token = Cookies.get('token'); // Fetch the token from cookies
   try {
-    const response = await axios.get(`${apiURL}/sales/get`);
+    const response = await axios.get(`${apiURL}/sales/get`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     return response.data;
   } catch (err) {
     throw new Error('Failed to fetch sales');
@@ -28,7 +39,12 @@ export const fetchSales = createAsyncThunk('sales/fetchSales', async () => {
 // Async thunk to delete a sale
 export const deleteSale = createAsyncThunk('sales/deleteSale', async (saleId) => {
   try {
-    await axios.delete(`${apiURL}/sales/delete/${saleId}`);
+    const token = Cookies.get('token'); // Fetch the token from cookies
+    await axios.delete(`${apiURL}/sales/delete/${saleId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     return saleId;
   } catch (err) {
     throw new Error('Failed to delete sale');
@@ -40,7 +56,12 @@ export const updateSaleStatus = createAsyncThunk(
   'sales/updateSaleStatus',
   async ({ saleId, status }, { rejectWithValue }) => {
     try {
-      const response = await axios.put(`${apiURL}/sales/update/${saleId}`, { status });
+      const token = Cookies.get('token'); // Fetch the token from cookies
+      const response = await axios.put(`${apiURL}/sales/update/${saleId}`, { status }, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       return response.data;
     } catch (err) {
       return rejectWithValue(err.response.data);

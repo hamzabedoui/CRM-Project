@@ -1,86 +1,113 @@
-.body{
-  font-family: 'lato';
+/* General Body Styles */
+body {
+  font-family: 'Lato', sans-serif; /* Ensure Lato is correctly imported or installed */
+  margin: 0;
+  padding: 0;
 }
+
+/* Sidebar Container */
 .SidebarContainer {
-    width: 220px;
-    background-color: #d7dfef;
-    padding: 20px;
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-    display: flex;
-    flex-direction: column;
-    gap: 10rem;
-    height: 92vh;
-    
-  }
-  
-  .UserInfoContainer {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    align-items: center;
-    margin-bottom: 20px;
-  }
-  
-  .UserName {
-    font-weight: bold;
-    font-size: 1.6rem;
-  }
-  
-  .container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 2rem;
-   
-  }
-  .nav-side {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-  }
-  .sidebar-items {
-    font-size: 1.5rem;
-    list-style-type: none;
-    padding: 0;
-    margin: 50px 0 0 0;
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    align-items: left;
-    .sidebar-item {
-      padding: 10px;
-      transition: all .3s;
-      cursor: pointer;
-      &:hover {
-        background-color: #cdcaca;
-        color: rgb(138, 128, 128);
-      }
-      a:visited,a:link{
-        text-decoration: none;
-        padding: 1rem;
-        color: rgb(98, 97, 97);
-      }
-    }
-  }
-  .btncontainer{
-    align-self: center;
+  width: 220px; /* Fixed width for the sidebar */
+  background-color: #d7dfef; /* Light blue background */
+  padding: 20px; /* Padding around the content */
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* Shadow for depth */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100vh; /* Full viewport height */
+  position: fixed;
+  top: 0;
+  left: 0;
+}
 
-  }
-  .item:hover{
-    text-decoration: underline;
+/* User Information Section */
+.UserInfoContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* margin-bottom: 20px; */
+  
+}
 
+.UserAvatar {
+  margin-bottom: 10px; /* Space between avatar and username */
+}
+
+.UserName {
+  font-weight: bold;
+  font-size: 1.6rem;
+  color: #333; /* Darker color for better readability */
+}
+
+/* Navigation Container */
+.container {
+  /* flex: 1; */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4rem; /* Space between nav items and button */
+}
+
+/* Navigation Items */
+.nav-side {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.sidebar-items {
+  font-size: 1.2rem; /* Adjust font size as needed */
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar-item {
+  padding: 10px 15px; /* Padding for clickable area */
+  border-radius: 0.5rem; /* Rounded corners */
+  transition: background-color 0.3s, color 0.3s; /* Smooth transition for hover effects */
+  cursor: pointer; /* Pointer cursor for clickable items */
+  color: #333; /* Default text color */
+}
+
+.sidebar-item:hover {
+  background-color: #cdcaca; /* Hover background color */
+  color: #333; /* Hover text color */
+}
+
+.sidebar-item a {
+  text-decoration: none;
+  color: inherit; /* Inherit color from parent */
+}
+
+/* Sign Out Button */
+.btncontainer {
+  padding: 10px 0; /* Add some padding around the button */
+}
+
+.btn {
+  background-color: #1976d2; /* Primary button color */
+  color: white;
+  cursor: pointer;
+  font-size: 16px;
+  height: 3rem;
+  width: 100%; /* Full width of the container */
+  border: none;
+  border-radius: 0.5rem;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn:hover {
+  background-color: #105193; /* Darker color on hover */
+  text-decoration: none; /* Remove underline on hover */
+}
+
+/* Optional: Add some media queries for responsiveness */
+@media (max-width: 768px) {
+  .SidebarContainer {
+    width: 200px; /* Adjust width for smaller screens */
   }
-  .btn{
-    background-color: #1976d2;
-    color: white;
-    cursor: pointer;
-    font-size: 16px;
-    height: 3rem;
-    width: 8rem;
-    border: none;
-    border-radius: 0.5rem;
-  }
-  .btn:hover {
-    background-color: #105193;
-    text-decoration: underline;
-    }
+}

@@ -1,27 +1,28 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { List, ListItem, ListItemText, Avatar, ListItemIcon } from "@mui/material";
-import { useSelector, useDispatch } from "react-redux";
-import { Home, People, AttachMoney, ShoppingCart, Payment } from "@mui/icons-material"; // Import icons
-import { signOutUser } from "../../redux/features/loginSlice"; // Import signOutUser action
+import { useDispatch } from "react-redux";
+import { Home, People, AttachMoney, ShoppingCart, Payment, AccountCircle } from "@mui/icons-material";
+import { signOutUser } from "../../redux/features/loginSlice";
 import "./Sidebar.css";
 
-const AdminSidebar = ({ userName, userAvatar }) => {
+const AdminSidebar = ({ userName, userAvatar, isOpen }) => {
   const navigate = useNavigate();
-  const dispatch = useDispatch(); // Initialize useDispatch hook
+  const dispatch = useDispatch();
 
   const handleSignOut = async () => {
     try {
+      console.log("Attempting to sign out...");
       await dispatch(signOutUser());
-      navigate('/login'); 
+      console.log("Sign out successful, navigating to home...");
+      navigate("/");
     } catch (error) {
       console.error("Error signing out:", error);
-      // Handle error, such as showing an error message
     }
   };
 
   return (
-    <div className="SidebarContainer">
+    <div className={`SidebarContainer ${isOpen ? 'open' : 'closed'}`}>
       <div className="container">
         <div className="UserInfoContainer">
           <Avatar alt={userName} src={userAvatar} className="UserAvatar" />
@@ -59,13 +60,19 @@ const AdminSidebar = ({ userName, userAvatar }) => {
               </ListItemIcon>
               <ListItemText className="item" primary="Payments" />
             </ListItem>
+            <ListItem button component={Link} to="/main-responsable/profile">
+              <ListItemIcon>
+                <AccountCircle />
+              </ListItemIcon>
+              <ListItemText className="item" primary="Profile" />
+            </ListItem>
           </div>
         </List>
-      </div>
-      <div className="btncontainer">
-        <button className="btn" fullWidth variant="outlined" onClick={handleSignOut}>
-          Sign Out
-        </button>
+        <div className="btncontainer">
+          <button className="btn" fullWidth variant="outlined" onClick={handleSignOut}>
+            Sign Out
+          </button>
+        </div>
       </div>
     </div>
   );

@@ -1,6 +1,6 @@
 .home-container {
     padding: 40px;
-    width: 130%;
+   
     display: flex;
     flex-direction: column;
     gap: 2rem;

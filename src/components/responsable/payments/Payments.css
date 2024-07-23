@@ -12,7 +12,8 @@
   
   .add-payment-button-container {
     margin-top: 20px;
-    
+    background-color: #ff0000;
+   
   }
   
   .payment-form-container {
@@ -53,3 +54,4 @@
   .payments-table-head{
     background-color:#007bff ;
   }
+

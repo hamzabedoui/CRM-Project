@@ -18,12 +18,13 @@ const Profile = () => {
     if (userInfos) {
       setName(userInfos.name);
       setEmail(userInfos.email);
-      // Set the initial avatar if available
+      
     }
   }, [userInfos]);
 
   const handleAvatarChange = (event) => {
     setAvatar(event.target.files[0]);
+    
   };
 
   const handleSubmit = (event) => {
@@ -38,6 +39,7 @@ const Profile = () => {
       .unwrap()
       .then(() => navigate('/main-responsable/profile'))
       .catch((error) => console.error('Profile update failed:', error));
+      
   };
 
   return (

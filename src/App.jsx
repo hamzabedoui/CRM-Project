@@ -3,8 +3,7 @@ import Login from './pages/login/login';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Register from './pages/register/Register';
 import MainResponsable from './pages/admin/MainResponsable';
-import MainClient from './components/client/MainClient';
-import HomeClient from './components/client/HomeClient';
+
 import Customers from './components/responsable/customers/Customers';
 import Dashboard from './components/responsable/services/Dashboard';
 import Home from './components/responsable/home/Home';
@@ -30,9 +29,6 @@ const App = () => {
             <Route path='/main-responsable/profile' element={<Profile />} />
 
           </Route> 
-          <Route path='/main-client' element={<MainClient />}>
-            <Route path='/main-client/home' element={<HomeClient />} />
-           </Route>
 
         </Routes>
       </Router>

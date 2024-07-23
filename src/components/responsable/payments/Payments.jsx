@@ -171,7 +171,7 @@ const PaymentSection = () => {
       </Button>
 
       <Dialog open={showForm} onClose={handleCloseForm}>
-        <DialogTitle>Add Payment</DialogTitle>
+        <DialogTitle className="">Add Payment</DialogTitle>
         <DialogContent>
           <form onSubmit={handleSubmit} className="payment-form-container">
             <FormControl fullWidth className="payment-form-control">

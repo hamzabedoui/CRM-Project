@@ -48,7 +48,7 @@ export const signOutUser = createAsyncThunk(
       await axios.post(`${apiURL}/auth/signOut`, null, {
         withCredentials: true,
       });
-      return {}; // Clear user data upon successful sign-out
+      return {}; 
     } catch (error) {
       throw error;
     }
@@ -73,14 +73,13 @@ export const updateProfile = createAsyncThunk(
   }
 );
 
-// Create the login slice
 const loginSlice = createSlice({
   name: 'login',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder
-      // Reducers for loginUser async thunk
+      
       .addCase(loginUser.pending, (state) => {
         state.loading = true;
         state.error = null;

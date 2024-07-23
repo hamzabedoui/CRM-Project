@@ -123,8 +123,7 @@ const PaymentSection = () => {
                 <TableCell colSpan={5} align="center">
                   <Typography
                     variant="body2"
-                    className="payment-loading-message"
-                  >
+                    className="payment-loading-message">
                     Loading...
                   </Typography>
                 </TableCell>
@@ -140,7 +139,7 @@ const PaymentSection = () => {
             ) : (
               payments.map((payment) => (
                 <TableRow key={payment._id}>
-                  <TableCell>{payment.date.split('T')[0]}</TableCell>
+                  <TableCell>{payment.date.split("T")[0]}</TableCell>
                   <TableCell>{`${payment.saleId.customerId.name} - ${payment.saleId.totalAmount} - ${payment.saleId.serviceId.name}`}</TableCell>
                   <TableCell>{payment.saleId.totalAmount}</TableCell>
                   <TableCell>{payment.paymentMethod}</TableCell>
@@ -149,8 +148,7 @@ const PaymentSection = () => {
                       variant="contained"
                       startIcon={<DeleteIcon />}
                       style={{ backgroundColor: "#f44336", color: "#fff" }}
-                      onClick={() => handleDeletePayment(payment._id)}
-                    >
+                      onClick={() => handleDeletePayment(payment._id)}>
                       Delete
                     </Button>
                   </TableCell>
@@ -165,8 +163,7 @@ const PaymentSection = () => {
         onClick={handleOpenForm}
         variant="contained"
         color="primary"
-        className="add-payment-button-container"
-      >
+        className="add-payment-button-container">
         Add Payment
       </Button>
 
@@ -178,11 +175,12 @@ const PaymentSection = () => {
               <InputLabel>Sale</InputLabel>
               <Select
                 value={saleId}
-                onChange={(e) => setSaleId(e.target.value)}
-              >
+                onChange={(e) => setSaleId(e.target.value)}>
                 {sales.map((sale) => (
                   <MenuItem key={sale._id} value={sale._id}>
-                    {`${sale.customerId.name} - ${sale.totalAmount} - ${sale.serviceId.name}`}
+                    {`${
+                      sale.customerId ? sale.customerIdname : "unknown customer"
+                    } - ${sale.totalAmount} - ${sale.serviceId.name}`}
                   </MenuItem>
                 ))}
               </Select>
@@ -216,8 +214,7 @@ const PaymentSection = () => {
               <InputLabel>Payment Method</InputLabel>
               <Select
                 value={paymentMethod}
-                onChange={(e) => setPaymentMethod(e.target.value)}
-              >
+                onChange={(e) => setPaymentMethod(e.target.value)}>
                 <MenuItem value="Credit Card">Credit Card</MenuItem>
                 <MenuItem value="PayPal">PayPal</MenuItem>
                 <MenuItem value="Bank Transfer">Bank Transfer</MenuItem>
@@ -230,8 +227,7 @@ const PaymentSection = () => {
               <Button
                 onClick={handleCloseForm}
                 variant="outlined"
-                color="primary"
-              >
+                color="primary">
                 Cancel
               </Button>
             </div>

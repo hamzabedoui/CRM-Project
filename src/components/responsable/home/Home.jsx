@@ -18,15 +18,21 @@ import "./Home.css"; // Import your CSS file for styling
 
 const Home = () => {
   const dispatch = useDispatch();
-  const { sales, loading: salesLoading, error: salesError } = useSelector(
-    (state) => state.sales
-  );
-  const { payments, loading: paymentsLoading, error: paymentsError } = useSelector(
-    (state) => state.payments
-  );
-  const { services, loading: servicesLoading, error: servicesError } = useSelector(
-    (state) => state.services
-  );
+  const {
+    sales,
+    loading: salesLoading,
+    error: salesError,
+  } = useSelector((state) => state.sales);
+  const {
+    payments,
+    loading: paymentsLoading,
+    error: paymentsError,
+  } = useSelector((state) => state.payments);
+  const {
+    services,
+    loading: servicesLoading,
+    error: servicesError,
+  } = useSelector((state) => state.services);
 
   useEffect(() => {
     dispatch(fetchSales());
@@ -43,7 +49,11 @@ const Home = () => {
   }
 
   if (salesError || paymentsError || servicesError) {
-    return <div className="error-container">Error: {salesError || paymentsError || servicesError}</div>;
+    return (
+      <div className="error-container">
+        Error: {salesError || paymentsError || servicesError}
+      </div>
+    );
   }
 
   return (
@@ -57,7 +67,10 @@ const Home = () => {
           <Card className="dashboard-card">
             <CardContent className="dashboard-card-content">
               <SalesIcon className="dashboard-icon" />
-              <Typography variant="h5" component="h2" className="dashboard-card-title">
+              <Typography
+                variant="h5"
+                component="h2"
+                className="dashboard-card-title">
                 Total Sales
               </Typography>
               <Typography variant="h4" className="dashboard-card-value">
@@ -71,7 +84,10 @@ const Home = () => {
           <Card className="dashboard-card">
             <CardContent className="dashboard-card-content">
               <PaymentsIcon className="dashboard-icon" />
-              <Typography variant="h5" component="h2" className="dashboard-card-title">
+              <Typography
+                variant="h5"
+                component="h2"
+                className="dashboard-card-title">
                 Total Payments
               </Typography>
               <Typography variant="h4" className="dashboard-card-value">
@@ -85,7 +101,10 @@ const Home = () => {
           <Card className="dashboard-card">
             <CardContent className="dashboard-card-content">
               <ServicesIcon className="dashboard-icon" />
-              <Typography variant="h5" component="h2" className="dashboard-card-title">
+              <Typography
+                variant="h5"
+                component="h2"
+                className="dashboard-card-title">
                 Total Services
               </Typography>
               <Typography variant="h4" className="dashboard-card-value">
@@ -94,11 +113,8 @@ const Home = () => {
             </CardContent>
           </Card>
         </Grid>
-
-        
       </Grid>
 
-      
       <Typography variant="h5" className="recent-activity-title">
         Recent Activity
       </Typography>
@@ -107,7 +123,9 @@ const Home = () => {
         <ul className="recent-activity-list">
           {sales.slice(0, 5).map((sale) => (
             <li key={sale._id} className="activity-item">
-              {sale.date.split('T')[0]} - {sale.customerId.name} - {sale.serviceId.name} - ${sale.totalAmount}
+              {sale.date.split("T")[0]} -{" "}
+              {sale.customerId ? sale.customerIdname : "unknown customer"} -{" "}
+              {sale.serviceId.name} - ${sale.totalAmount}
             </li>
           ))}
         </ul>

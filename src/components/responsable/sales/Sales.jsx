@@ -43,7 +43,7 @@ const Sales = () => {
   const { services } = useSelector((state) => state.services);
   const { users, loading: usersLoading } = useSelector((state) => state.users);
   const userInfos = useSelector((store) => store.login.userInfos);
-  
+
   const [open, setOpen] = useState(false);
   const [serviceAmount, setServiceAmount] = useState(0);
   const [formData, setFormData] = useState({
@@ -155,7 +155,9 @@ const Sales = () => {
             {sales.map((sale) => (
               <TableRow key={sale._id} className="table-row">
                 <TableCell>{sale.date.split("T")[0]}</TableCell>
-                <TableCell>{sale.customerId.name}</TableCell>
+                <TableCell>
+                  {sale.customerId ? sale.customerIdname : "unknown customer"}
+                </TableCell>
                 <TableCell>{sale.serviceId.name}</TableCell>
                 <TableCell>{sale.quantity}</TableCell>
                 <TableCell>{sale.totalAmount}</TableCell>
@@ -165,8 +167,7 @@ const Sales = () => {
                       value={sale.status}
                       onChange={(e) => handleStatusChange(e, sale._id)}
                       style={{ minWidth: "120px" }}
-                      className="menu-item"
-                    >
+                      className="menu-item">
                       <MenuItem value="pending">
                         <InfoOutlinedIcon
                           style={{ marginRight: "10px", color: "#ffc107" }}
@@ -193,8 +194,7 @@ const Sales = () => {
                     variant="contained"
                     startIcon={<DeleteIcon />}
                     onClick={() => handleDelete(sale._id)}
-                    style={{ backgroundColor: "#f44336", color: "#fff" }}
-                  >
+                    style={{ backgroundColor: "#f44336", color: "#fff" }}>
                     Delete
                   </Button>
                 </TableCell>
@@ -208,8 +208,7 @@ const Sales = () => {
         variant="contained"
         color="primary"
         onClick={() => setOpen(true)}
-        style={{ marginTop: "20px", marginLeft: "30rem" }}
-      >
+        style={{ marginTop: "20px", marginLeft: "30rem" }}>
         Create Sale
       </Button>
 
@@ -241,8 +240,7 @@ const Sales = () => {
               onChange={handleClientChange}
               required
               fullWidth
-              margin="normal"
-            >
+              margin="normal">
               {users.map((client) => (
                 <MenuItem key={client._id} value={client._id}>
                   {client.name}
@@ -257,8 +255,7 @@ const Sales = () => {
               onChange={handleServiceChange}
               required
               fullWidth
-              margin="normal"
-            >
+              margin="normal">
               {services.map((service) => (
                 <MenuItem key={service._id} value={service._id}>
                   {service.name}
@@ -285,8 +282,7 @@ const Sales = () => {
               }
               required
               fullWidth
-              margin="normal"
-            >
+              margin="normal">
               {["pending", "confirmed", "cancelled"].map((status) => (
                 <MenuItem key={status} value={status}>
                   {status.charAt(0).toUpperCase() + status.slice(1)}

@@ -104,30 +104,25 @@ const createClient = async (req, res) => {
 // Edit Profile
 const editProfile = async (req, res) => {
   const { name, email } = req.body;
-  const avatarFile = req.file ? req.file.filename : null;
+  const avatar = req.file ? req.file.filename : undefined;
 
   try {
-    // Find the user
     const user = await User.findById(req.user.id);
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
     }
 
-    // Update fields
     if (name) user.name = name;
     if (email) user.email = email;
+    if (avatar) {
+      user.avatar = avatar;
 
-    // Handle avatar update
-    if (avatarFile) {
-      // Save the new avatar path to the user's profile
-      user.avatar = avatarFile;
-
-      // Ensure previous avatar is deleted
-      if (user.avatar && user.avatar !== 'default-avatar.jpg') {
-        const previousAvatarPath = path.join(__dirname, '../uploads', user.avatar);
-        if (fs.existsSync(previousAvatarPath)) {
-          fs.unlinkSync(previousAvatarPath); // Delete old avatar file
-        }
+      // Debugging code to verify file path
+      const filePath = path.join(__dirname, '../uploads', avatar);
+      if (fs.existsSync(filePath)) {
+        console.log(`File exists at ${filePath}`);
+      } else {
+        console.error(`File not found at ${filePath}`);
       }
     }
 

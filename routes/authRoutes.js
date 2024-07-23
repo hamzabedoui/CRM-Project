@@ -17,6 +17,6 @@ router.post("/login", login);
 router.get("/userinfo", protect, getUserDetails);   
 router.post("/signOut", protect, signOut); 
 router.post("/createClient", createClient);
-router.put("/edit-profile", upload.single('avatar'), editProfile);
+router.put("/edit-profile", protect, upload.single('avatar'), editProfile);
 
 module.exports = router;

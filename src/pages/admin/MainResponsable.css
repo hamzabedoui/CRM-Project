@@ -1,0 +1,111 @@
+/* Main container styling */
+.mainResponsable {
+    display: flex;
+    height: 100vh; /* Full viewport height */
+    overflow: hidden; /* Prevent scrolling when sidebar is open */
+  }
+  
+  /* Sidebar styling */
+  .SidebarContainer {
+    width: 220px; /* Fixed width for the sidebar */
+    background-color: #d7dfef; /* Light blue background */
+    padding: 20px; /* Padding around the content */
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* Shadow for depth */
+    display: flex;
+    flex-direction: column;
+    height: 100vh; /* Full viewport height */
+    position: fixed; /* Fixed position to stay in place */
+    top: 0;
+    left: -220px; /* Initially hide sidebar */
+    transition: left 0.3s; /* Smooth transition for showing/hiding sidebar */
+    z-index: 1000; /* Ensure the sidebar is above other elements */
+  }
+  
+  .SidebarContainer.open {
+    left: 0; /* Show sidebar when open */
+  }
+  
+  .SidebarContainer.closed {
+    left: -300px; /* Hide sidebar when closed */
+  }
+  
+  /* Main content area */
+  .main-container {
+    margin-left: 220px; /* Space for the sidebar */
+    padding: 20px;
+    width: calc(100% - 220px); /* Adjust width to fit the content area */
+    overflow-y: auto; /* Enable scrolling for the main content */
+    transition: margin-left 0.3s, width 0.3s; /* Smooth transition for margin and width */
+  }
+  
+  .main-container.sidebar-closed {
+    margin-left: 0; /* No margin when sidebar is closed */
+    width: 100%; /* Full width when sidebar is closed */
+  }
+  
+  /* Button to toggle sidebar */
+  .menu-button {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    z-index: 1100; /* Ensure the button is above the sidebar */
+    background-color: #1976d2;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .menu-button svg {
+    font-size: 24px; /* Adjust the size of the icon */
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .SidebarContainer {
+      width: 200px; /* Adjust sidebar width for smaller screens */
+    }
+  
+    .main-container {
+      margin-left: 200px; /* Adjust main content margin for smaller screens */
+      width: calc(100% - 200px); /* Adjust main content width for smaller screens */
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .SidebarContainer {
+      width: 180px; /* Further adjust sidebar width for even smaller screens */
+    }
+  
+    .main-container {
+      margin-left: 180px; /* Adjust main content margin for smaller screens */
+      width: calc(100% - 180px); /* Adjust main content width for smaller screens */
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .SidebarContainer {
+      position: absolute; /* Sidebar over content on very small screens */
+      width: 220px; /* Original sidebar width */
+      left: -220px; /* Hide sidebar by default */
+      transition: left 0.3s; /* Smooth transition for showing/hiding sidebar */
+    }
+  
+    .SidebarContainer.open {
+      left: 0; /* Show sidebar when open */
+    }
+  
+    .main-container {
+      margin-left: 0; /* No margin on very small screens */
+      width: 100%; /* Full width for main content */
+    }
+  
+    .menu-button {
+      display: block; /* Show toggle button on very small screens */
+    }
+  }
+  

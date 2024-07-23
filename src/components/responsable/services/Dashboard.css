@@ -1,0 +1,102 @@
+/* General container styling */
+.service-list-container {
+  padding: 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+  
+  /* margin-left: 10rem; */
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* Table styling */
+.service-table {
+  width: 150%;
+}
+
+.table-header {
+  background-color: #007bff;
+  font-weight: bold;
+}
+
+.table-row {
+  transition: background-color 0.3s ease;
+}
+
+.table-row:hover {
+  background-color: #f1f1f1;
+}
+
+.edit-input {
+  width: 100%;
+}
+
+/* Button styling */
+.action-button {
+  margin: 5px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-size: 1rem;
+  border-radius: 0.3rem;
+}
+
+.action-button:hover {
+  background-color: #0056b3;
+}
+
+.delete-button {
+  background-color: #f44336;
+  font-size: 1rem;
+}
+
+.delete-button:hover {
+  background-color: #c82333;
+  
+}
+
+.add-button {
+  background-color: #28a745;
+  font-size: 1rem;
+}
+
+.add-button:hover {
+  background-color: #218838;
+}
+
+/* Ensure buttons are separated with adequate margin */
+.buttons-action {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+/* Add service form styling */
+.add-service-container {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.add-input {
+  margin-right: 10px;
+  width: 200px;
+}
+
+.unit-input {
+  width: 150px; /* Fixed width for the unit input */
+}
+
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
